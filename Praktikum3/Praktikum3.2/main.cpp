@@ -1,6 +1,6 @@
 #include <avr/io.h>
 #include <avr/interrupt.h>
-#define F_CPU 16000000UL /*CPU Takt*/
+#define F_CPU 16000000UL
 #include <util/delay.h>
 
 
@@ -35,33 +35,31 @@ ISR(INT1_vect)
 
 int main(void)
 {
-	EICRA |= (1<< ISC11);// Trigger on rising edge
-	EIMSK |= (1<<INT0);     // Enable INT0
-	EIMSK |= (1<<INT1);     // Enable INT1
+	EICRA |= (1<< ISC11); //Interrupts auf Hochflanke getriggert
+	EIMSK |= (1<<INT0); // Interrupt 0 an
+	EIMSK |= (1<<INT1);  // Interrupt 1 an 
 
+	DDRB  = 0b00000011;
+	DDRD  = 0b00000000;
+	PORTD = 0b00001100;
 
-
-
-
-	DDRB  = 0b00000011;//set LEDs out on Port B
-	DDRD  = 0b00000000;//set Port D as Input
-	PORTD = 0b00001100;// set pullup on INT0 and INT1
-
-	sei();    //Enable Global Interrupt
+	sei();  // aktiviert Interrupts 
 
 	while (1)
 	{
-		//Blink 0
+		//beide LED aus 
 		PORTB = 0b00000000;
 		_delay_ms(200);
 
-		//Blink 1
+		//LED je nach state an 
 		if(state == 1)
 		{
+			//gelbe LED 
 			PORTB = 0b00000001;
 		}
 		if(state == 2)
 		{
+			//rote LED 
 			PORTB = 0b00000010;
 		}
 		_delay_ms(200);

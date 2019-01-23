@@ -1,5 +1,3 @@
-
-
 #include <avr/io.h>
 #define F_CPU  16000000
 #include <util/delay.h>
@@ -12,12 +10,15 @@ void abfrage()
 {
 	if(!(PIND & (1<< PIND2)))
 	{
+		
 		if(state == 0 || state == 2)
 		{
+			//Wenn gelbe LED an oder rote LED aus, dann geht nach Drücken des Tasters rote LED an
 			state = 1;
 		}
 		else
 		{
+			//wenn rote LED an und taster wird gedrückt, geht rote LED wieder aus 
 			state = 0;
 		}
 	}
